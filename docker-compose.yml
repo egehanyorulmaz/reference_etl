@@ -22,9 +22,7 @@ services:
     volumes:
       - ./postgresql/postgres-data:/var/lib/postgresql/data
     ports:
-      - 5432:5432
-    expose:
-      - '5432'
+      - 5433:5432
     networks:
       - app_net
     environment:
