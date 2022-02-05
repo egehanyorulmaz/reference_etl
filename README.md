@@ -4,7 +4,7 @@ This repository is created for the Medium Article, "Making ETL pipeline easy-to-
 You need certain applications to follow the steps of the tutorial. We will be using Docker, Docker Compose, Python \
 Docker Desktop : https://docs.docker.com/get-docker/ \
 Docker Compose : https://docs.docker.com/compose/install/ \
-Python: https://www.python.org/downloads/ \
+Python: https://www.python.org/downloads/
 
 After successfully downloading Docker and Docker Compose, you have certain options to install PostgreSQL and MySQL, but the easiest way is to use docker-compose. I have designed the docker-compose.yml file to install both of them for the sake of this tutorial along with Apache Airflow to use.
 
