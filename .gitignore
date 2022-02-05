@@ -10,6 +10,12 @@ __pycache__/
 mysql/
 postgresql/
 
+# Airflow files and folders
+airflow/
+logs/
+plugins/
+
+
 # Pycharm files and folders
 .idea/
 .DS_Store
