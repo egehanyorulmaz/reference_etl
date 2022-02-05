@@ -11,7 +11,8 @@ After successfully downloading Docker and Docker Compose, you have certain optio
 Please follow these steps to install PostgreSQL, MySQL and Apache Airflow as docker container: \
 1- Navigate to the path of the .yml file using terminal \
 2- Make sure docker is up and running.\
-3- Run `docker-compose up -d` in the terminal.
+3- Run `docker-compose -f etl_databases.yml up -d` in the terminal to install Postgresql and MySQL databases.
+4- Run `docker-compose -f apache-airflow.yaml up -d` in the terminal to install Apache Airflow and required dependent services.
 
 
 To access the database, you can use tools like DataGrip. I highly recommend using DataGrip if you are working with multiple databases at the same time. It allows migrating data from one database to another and it will be a useful feature if you are not concerned about time restrictions. But, I have to say it will be inefficient.
