@@ -10,7 +10,7 @@ __pycache__/
 mysql/
 postgresql/
 
-# Pycharm folders
+# Pycharm files and folders
 .idea/
 .DS_Store
 
