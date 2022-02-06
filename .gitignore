@@ -7,8 +7,8 @@ __pycache__/
 *.so
 
 # Docker volumes
-mysql/
-postgresql/
+mysql_container/
+postgresql_container/
 
 # Airflow files and folders
 airflow/
