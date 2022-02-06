@@ -4,7 +4,7 @@ services:
   local_mysql:
     image: mysql:5.7
     volumes:
-      - ./mysql/mysql-data:/var/lib/mysql
+      - ./mysql_container/mysql-data:/var/lib/mysql
     ports:
       - 3306:3306
     networks:
@@ -20,7 +20,7 @@ services:
   local_postgres:
     image: 'postgres:13.2'
     volumes:
-      - ./postgresql/postgres-data:/var/lib/postgresql/data
+      - ./postgresql_container/postgres-data:/var/lib/postgresql/data
     ports:
       - 5433:5432
     networks:
