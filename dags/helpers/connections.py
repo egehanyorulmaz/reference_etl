@@ -101,11 +101,11 @@ class Database():
         columns_list = columns.split(', ')
         data.reset_index(drop=True, inplace=True)
         insert_str = f""" INSERT INTO {table_schema}.{table_name} ({columns}) \n VALUES """
-        for idx, row in data.iterrows():
+        for idx1, row in data.iterrows():
             insert_row = list(row)
-            modified_insertion_values = ""
+            modified_insertion_values = "("
 
-            for x in insert_row:
+            for idx2, x in enumerate(insert_row):
                 if pd.isna(x):  # if data is empty, then Null value will be inserted
                     insertion_substr = "Null"
                 elif isinstance(x, pd.Timestamp):  # if data is type of timestamp, then 'x' is added to timestamp
@@ -117,10 +117,13 @@ class Database():
                     insertion_substr = str(x)
 
                 modified_insertion_values += insertion_substr
-                modified_insertion_values += ', '
+                if idx2 +1 != len(insert_row):
+                    modified_insertion_values += ', '
 
-            if idx -1 == len(data):
+            if idx1 + 1 == len(data):
                 modified_insertion_values += ');'
+            else:
+                modified_insertion_values += '), '
 
             insert_str += modified_insertion_values
 
