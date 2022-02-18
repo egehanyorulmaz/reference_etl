@@ -9,7 +9,6 @@ database.drop_table(table_schema='company', table_name='company_symbols')
 database.drop_table(table_schema='company', table_name='company_values')
 database.drop_schema(table_schema='company')
 
-
 database.create_schema('company')
 
 # Reads the data, creates the table and inserts values to company_symbols
