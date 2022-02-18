@@ -59,9 +59,9 @@ class Database():
                 return data_df
 
         except Exception as e:
-            print(f"Error when executing query: '{e}'")
             self.cursor.execute("ROLLBACK")
             self.close_connection()
+            print(f"Error when executing query: '{e}'")
             raise Exception("There is a problem with your query. Please control it. Marking task as failed! ")
 
     def truncate_table(self, table_schema: str, table_name: str) -> None:
@@ -98,7 +98,6 @@ class Database():
         print("Columns to be inserted: ", str(columns))
         print("Columns in the data extracted: ", str(data.columns.tolist()))
 
-        columns_list = columns.split(', ')
         data.reset_index(drop=True, inplace=True)
         insert_str = f""" INSERT INTO {table_schema}.{table_name} ({columns}) \n VALUES """
         for idx1, row in data.iterrows():
