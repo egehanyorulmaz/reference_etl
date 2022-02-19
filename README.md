@@ -1,5 +1,5 @@
-# Making ETL pipeline easy-to-manage by data teams
-This repository is created for the Medium Article, "Making ETL pipeline easy-to-manage by data teams" and consists the steps of creating an ETL pipeline from scratch using reference tables.
+# Developing reliable and flexible ETL pipelines using Apache Airflow
+This repository is created for the Medium Article, "Developing reliable and flexible ETL pipelines using Apache Airflow" and consists the steps of creating an ETL pipeline from scratch using reference tables.
 
 You need certain applications to follow the steps of the tutorial. We will be using Docker, Docker Compose, Python \
 Docker Desktop : https://docs.docker.com/get-docker/ \
