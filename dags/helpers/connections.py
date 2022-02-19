@@ -5,7 +5,6 @@ Created at: 02/19/2022
 import os
 import psycopg2
 import pandas as pd
-from psycopg2.extras import execute_batch
 from mysql import connector
 from pandas import DataFrame
 from datetime import datetime
