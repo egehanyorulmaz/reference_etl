@@ -12,7 +12,7 @@ from datetime import datetime
 CUR_DIR = os.path.abspath(os.path.dirname(__file__))
 
 
-class Database():
+class Database:
     def __init__(self, database_type: str, host: str, port: str, db_name: str, user_name: str, password: str):
         self.host = host
         self.port = port
