@@ -1,3 +1,7 @@
+"""
+Created by: Egehan Yorulmaz (egehanyorulmaz@gmail.com)
+Created at: 02/19/2022
+"""
 import os
 import psycopg2
 import pandas as pd
@@ -74,7 +78,7 @@ class Database():
         self.execute_query(query, return_data=False)
         print(query)
 
-    def create_table(self, table_schema:str, table_name:str, columns:dict) -> None:
+    def create_table(self, table_schema: str, table_name: str, columns: dict) -> None:
         query = f"CREATE TABLE IF NOT EXISTS {table_schema}.{table_name} ("
         modified_dict = [f"{column_name} {column_datatype}" for column_name, column_datatype in columns.items()]
         column_informations = ",\n".join(modified_dict)
@@ -83,17 +87,17 @@ class Database():
         self.execute_query(query, return_data=False)
         print(query)
 
-    def drop_schema(self, table_schema:str) -> None:
+    def drop_schema(self, table_schema: str) -> None:
         query = f"DROP SCHEMA IF EXISTS {table_schema};"
         self.execute_query(query, return_data=False)
 
-    def drop_table(self, table_schema:str, table_name:str) -> None:
+    def drop_table(self, table_schema: str, table_name: str) -> None:
         query = f"DROP TABLE IF EXISTS {table_schema}.{table_name};"
         self.execute_query(query, return_data=False)
 
-    def insert_values(self, data, table_schema, table_name, columns):
+    def insert_values(self, data: DataFrame, table_schema: str, table_name: str, columns: str) -> None:
         """
-        Inserts value to greenplum db for specified schema and table in the ETL pipeline.
+        Inserts value to database for specified schema and table in the ETL pipeline.
         """
         print("Columns to be inserted: ", str(columns))
         print("Columns in the data extracted: ", str(data.columns.tolist()))
@@ -116,7 +120,7 @@ class Database():
                     insertion_substr = str(x)
 
                 modified_insertion_values += insertion_substr
-                if idx2 +1 != len(insert_row):
+                if idx2 + 1 != len(insert_row):
                     modified_insertion_values += ', '
 
             if idx1 + 1 == len(data):
@@ -135,11 +139,11 @@ class Database():
 
     def close_connection(self):
         """
-        Terminates connection to Greenplum Database
+        Terminates connection to the database
         """
         self.conn.close()
         self.cursor.close()
-        print("Connection to successfully terminated!")
+        print("Connection is successfully terminated!")
 
 
 class Mysql(Database):
