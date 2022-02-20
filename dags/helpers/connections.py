@@ -33,13 +33,15 @@ class Database:
                 conn = psycopg2.connect(host=self.host, port=self.port, dbname=self.db_name, user=self._user_name,
                                         password=self._password)
                 conn.set_session(autocommit=True)
-                print(f'Successfully connected to {self.db_name}!')
             elif self.database_type == 'mysql':
                 conn = connector.connect(host=self.host,
                                          port=self.port,
                                          database=self.db_name,
                                          user=self._user_name,
                                          password=self._password)
+                conn.autocommit = True
+            print(f'Successfully connected to {self.db_name}!')
+
             return conn
         except:
             print(
@@ -135,6 +137,7 @@ class Database:
         print("END OF QUERY:")
         print(insert_str[-1000:])
         self.execute_query(insert_str, return_data=False)
+        print('Ingestion process has completed!')
 
     def close_connection(self):
         """
