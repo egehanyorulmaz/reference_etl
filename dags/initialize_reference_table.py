@@ -36,7 +36,7 @@ database.create_table(table_schema='etl_manager', table_name='database_flow_refe
                                'destination_table': 'varchar',
                                'target_fields': 'varchar'})
 
-company_symbol_ref_insertion = {'insert_date': str(datetime.now()), 'source_connection': 'mysql',
+company_symbol_dict = {'insert_date': str(datetime.now()), 'source_connection': 'mysql',
                                 'source_schema': 'company',
                                 'source_table': 'company_symbols', 'key_fields': 'ticker_symbol, company_name',
                                 'extraction_method': 'jdbc',
@@ -44,7 +44,7 @@ company_symbol_ref_insertion = {'insert_date': str(datetime.now()), 'source_conn
                                 'destination_schema': 'company',
                                 'destination_table': 'company_symbols', 'target_fields': 'ticker_symbol, company_name'}
 
-company_values_ref_insertion = {'insert_date': str(datetime.now()), 'source_connection': 'mysql',
+company_values_dict = {'insert_date': str(datetime.now()), 'source_connection': 'mysql',
                                 'source_schema': 'company',
                                 'source_table': 'company_values',
                                 'key_fields': 'ticker_symbol, day_date, close_value, volume, '
@@ -55,3 +55,16 @@ company_values_ref_insertion = {'insert_date': str(datetime.now()), 'source_conn
                                 'destination_table': 'company_values',
                                 'target_fields': 'ticker_symbol, day_date, close_value, volume, '
                                                  'open_value, high_value, low_value'}
+
+company_symbol_dict = {k:[v,] for k,v in company_symbol_dict.items()}
+company_values_dict = {k:[v,] for k,v in company_values_dict.items()}
+
+company_symbol_df = pd.DataFrame(company_symbol_dict)
+company_values_df = pd.DataFrame(company_values_dict)
+
+database.insert_values(data=company_symbol_df, table_schema='etl_manager', table_name='database_flow_reference_table',
+                       columns=', '.join(company_symbol_df.columns.tolist()))
+database.insert_values(data=company_values_df, table_schema='etl_manager', table_name='database_flow_reference_table',
+                       columns=', '.join(company_values_df.columns.tolist()))
+
+print('stop')
