@@ -24,7 +24,7 @@ company_values_df = pd.read_csv(CUR_DIR + "/tutorial_data/CompanyValues.csv")
 database.create_table(table_schema='company', table_name='company_values',
                       columns={'ticker_symbol': 'varchar(20)',
                                'day_date': 'timestamp',
-                               'close_value': 'numeric',
+                               'close_value': 'float',
                                'volume': 'bigint',
                                'open_value': 'float',
                                'high_value': 'float',
