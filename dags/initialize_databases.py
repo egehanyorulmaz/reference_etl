@@ -33,3 +33,4 @@ database.insert_values(data=company_values_df, table_schema='company', table_nam
                        columns='ticker_symbol, day_date, close_value, volume, open_value, high_value, low_value')
 
 print("Data is ready!")
+database.close_connection()

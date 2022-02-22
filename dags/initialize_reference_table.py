@@ -65,3 +65,5 @@ database.insert_values(data=company_symbol_df, table_schema='etl_manager', table
                        columns=', '.join(company_symbol_df.columns.tolist()))
 database.insert_values(data=company_values_df, table_schema='etl_manager', table_name='database_flow_reference_table',
                        columns=', '.join(company_values_df.columns.tolist()))
+
+database.close_connection()
