@@ -24,17 +24,19 @@ default_args = {
 }
 
 #### Airflow Variables ####
-# AIRFLOW_VARIABLE = airflow.models.Variable.get('AIRFLOW_VARIBALE')
+# AIRFLOW_VARIABLE = airflow.models.Variable.get('AIRFLOW_VARIABLE')
 
 #### Other Variables ####
 CUR_DIR = os.path.abspath(os.path.dirname(__file__))
+POSTGRE_HOST, POSTGRE_PORT, POSTGRE_DB_NAME, POSTGRE_USER, POSTGRE_PASSWORD = 'localhost', '5433', 'postgres_db', 'postgres', 'postgres'
+MYSQL_HOST, MYSQL_PORT, MYSQL_DB_NAME, MYSQL_USER, MYSQL_PASSWORD = 'localhost', '3306', 'mysql_db', 'root', 'root_mysql'
 
 
 def download_reference_table() -> DataFrame:
     """
     Description: Downloads reference table from PostgreSQL database.
     """
-    postgres_conn = Postgresql()
+    postgres_conn = Postgresql(host=POSTGRE_HOST, port=POSTGRE_PORT, db_name=POSTGRE_DB_NAME, user_name=POSTGRE_USER, password=POSTGRE_PASSWORD)
     query = """SELECT * FROM etl_manager.database_flow_reference_table"""
     ref_table = postgres_conn.execute_query(query=query, return_data=True)
     postgres_conn.greenplum.close_connection()  # close connection to greenplum db
@@ -57,7 +59,7 @@ def extract(source_connection_name: str, schema_name: str, table_name: str, key_
     # if you want multi-directional etl pipeline inside a single DAG, then you only have to create
     # class for that particular database and add if condition to this function.
     if source_connection_name == 'mysql':
-        conn_obj = Mysql()
+        conn_obj = Mysql(host=MYSQL_HOST, port=MYSQL_PORT, db_name=MYSQL_DB_NAME, user_name=MYSQL_USER, password=MYSQL_PASSWORD)
 
     query = f"SELECT {key_fields} FROM {schema_name}.{table_name}"
     data = conn_obj.execute_query(query, return_data=True)
@@ -84,10 +86,11 @@ def load_to_target(output_path: str, target_connection_name: str, target_schema:
     Returns:
         None
     """
-    data = pd.read_csv(output_path)
-
     if target_connection_name == 'postgresql':
-        conn_obj = Postgresql()
+        conn_obj = Postgresql(host=POSTGRE_HOST, port=POSTGRE_PORT, db_name=POSTGRE_DB_NAME, user_name=POSTGRE_USER, password=POSTGRE_PASSWORD)
+
+    # reading data from extract_node
+    data = pd.read_csv(output_path)
 
     # TRUNCATE TABLE
     print(f'TRUNCATING {target_schema}.{target_table_name}')
