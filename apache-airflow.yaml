@@ -68,6 +68,8 @@ x-airflow-common:
       condition: service_healthy
     postgres:
       condition: service_healthy
+  networks:
+    - app_net
 
 services:
   postgres:
