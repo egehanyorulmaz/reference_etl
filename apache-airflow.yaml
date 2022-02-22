@@ -83,6 +83,8 @@ services:
       interval: 5s
       retries: 5
     restart: always
+    networks:
+      - app_net
 
   redis:
     image: redis:latest
@@ -94,6 +96,8 @@ services:
       timeout: 30s
       retries: 50
     restart: always
+    networks:
+      - app_net
 
   airflow-webserver:
     <<: *airflow-common
@@ -110,6 +114,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    networks:
+      - app_net
 
   airflow-scheduler:
     <<: *airflow-common
@@ -124,6 +130,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    networks:
+      - app_net
 
   airflow-worker:
     <<: *airflow-common
@@ -145,6 +153,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    networks:
+      - app_net
 
   airflow-triggerer:
     <<: *airflow-common
@@ -159,6 +169,8 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    networks:
+      - app_net
 
   airflow-init:
     <<: *airflow-common
@@ -236,6 +248,8 @@ services:
     user: "0:0"
     volumes:
       - .:/sources
+    networks:
+      - app_net
 
   airflow-cli:
     <<: *airflow-common
@@ -265,6 +279,12 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
+    networks:
+      - app_net
 
 volumes:
   postgres-db-volume:
+
+networks:
+  app_net:
+    driver: bridge
