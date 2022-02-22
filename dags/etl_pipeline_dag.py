@@ -71,7 +71,7 @@ def extract(source_connection_name: str, schema_name: str, table_name: str, key_
     conn_obj.close_connection()
 
 
-def load_to_target(output_path: str, target_connection_name: str, target_schema: str, target_table_name: str,
+def load_to_target(output_path: str, target_connection_name: str, target_schema: str, target_table: str,
                    target_fields: str) -> None:
     """
     Description: For csv extraction method, this function is used to read the data which is extracted from the source
@@ -93,14 +93,14 @@ def load_to_target(output_path: str, target_connection_name: str, target_schema:
     data = pd.read_csv(output_path)
 
     # TRUNCATE TABLE
-    print(f'TRUNCATING {target_schema}.{target_table_name}')
-    conn_obj.truncate_table(table_schema=target_schema, table_name=target_table_name)
+    print(f'TRUNCATING {target_schema}.{target_table}')
+    conn_obj.truncate_table(table_schema=target_schema, table_name=target_table)
 
-    print(f'Insertion started for {target_schema}.{target_table_name}!')
+    print(f'Insertion started for {target_schema}.{target_table}!')
     # data insertion for each value
-    conn_obj.insert_values(data=data, table_schema=target_schema, table_name=target_table_name, columns=target_fields)
+    conn_obj.insert_values(data=data, table_schema=target_schema, table_name=target_table, columns=target_fields)
 
-    print(f'Inserting to {target_schema}.{target_table_name} is successfully completed!')
+    print(f'Inserting to {target_schema}.{target_table} is successfully completed!')
     conn_obj.close_connection()
 
 
@@ -115,32 +115,32 @@ with DAG(dag_id=dag_id,
 
     # schemas are filtered with destination names, but since all tables and schemas
     # are identical, this will not cause any problems.
-    schemas = ref_table.destination_schema_name.unique().tolist()
+    schemas = ref_table.source_schema.unique().tolist()
 
     ### SOURCE SCHEMA FILTERING
     for source_schema in schemas:
         schema_node = DummyOperator(task_id='source_schema' + "_" + source_schema, dag=dag)
-        schema_tables = ref_table[ref_table.destination_schema_name == source_schema].copy()
+        schema_tables = ref_table[ref_table.source_schema == source_schema].copy()
         dummy_start >> schema_node
 
         ## ITERATE OVER TABLE NAMES INSIDE SCHEMAS
         for idx, row in schema_tables.iterrows():
-            source_connection_name = row['source_connection_name']
-            source_table = row['source_table_name']
+            source_connection = row['source_connection']
+            source_table = row['source_table']
             key_fields = row['key_fields']
 
             extract_node = PythonOperator(task_id='source_table' + '_' + source_schema + '_' + source_table,
                                           python_callable=extract,
-                                          op_kwargs={'source_connection_name': source_connection_name,
+                                          op_kwargs={'source_connection_name': source_connection,
                                                      'schema_name': source_schema,
                                                      'table_name': source_table,
                                                      'key_fields': key_fields
                                                      },
                                           dag=dag)
 
-            destination_connection = row['destination_connection_name']
-            destination_schema = row['destination_schema_name']
-            destination_table = row['destination_table_name']
+            destination_connection = row['destination_connection']
+            destination_schema = row['destination_schema']
+            destination_table = row['destination_table']
             target_fields = row['target_fields']
             output_file_path = CUR_DIR + '/' + f"{source_schema}_{source_table}.csv"
 
@@ -150,7 +150,7 @@ with DAG(dag_id=dag_id,
                 op_kwargs={'output_path': output_file_path,
                            'target_connection_name': destination_connection,
                            'target_schema': destination_schema,
-                           'target_table_name': destination_table,
+                           'target_table': destination_table,
                            'target_fields': target_fields},
                 dag=dag)
 
