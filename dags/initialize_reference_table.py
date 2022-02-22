@@ -36,27 +36,27 @@ database.create_table(table_schema='etl_manager', table_name='database_flow_refe
                                'target_fields': 'varchar'})
 
 company_symbol_dict = {'insert_date': str(datetime.now()), 'source_connection': 'mysql',
-                                'source_schema': 'company',
-                                'source_table': 'company_symbols', 'key_fields': 'ticker_symbol, company_name',
-                                'extraction_method': 'jdbc',
-                                'extraction_type': 'full', 'destination_connection': 'postgresql',
-                                'destination_schema': 'company',
-                                'destination_table': 'company_symbols', 'target_fields': 'ticker_symbol, company_name'}
+                       'source_schema': 'company',
+                       'source_table': 'company_symbols', 'key_fields': 'ticker_symbol, company_name',
+                       'extraction_method': 'jdbc',
+                       'extraction_type': 'full', 'destination_connection': 'postgresql',
+                       'destination_schema': 'company',
+                       'destination_table': 'company_symbols', 'target_fields': 'ticker_symbol, company_name'}
 
 company_values_dict = {'insert_date': str(datetime.now()), 'source_connection': 'mysql',
-                                'source_schema': 'company',
-                                'source_table': 'company_values',
-                                'key_fields': 'ticker_symbol, day_date, close_value, volume, '
-                                              'open_value, high_value, low_value',
-                                'extraction_method': 'jdbc',
-                                'extraction_type': 'full', 'destination_connection': 'postgresql',
-                                'destination_schema': 'company',
-                                'destination_table': 'company_values',
-                                'target_fields': 'ticker_symbol, day_date, close_value, volume, '
-                                                 'open_value, high_value, low_value'}
+                       'source_schema': 'company',
+                       'source_table': 'company_values',
+                       'key_fields': 'ticker_symbol, day_date, close_value, volume, '
+                                     'open_value, high_value, low_value',
+                       'extraction_method': 'jdbc',
+                       'extraction_type': 'full', 'destination_connection': 'postgresql',
+                       'destination_schema': 'company',
+                       'destination_table': 'company_values',
+                       'target_fields': 'ticker_symbol, day_date, close_value, volume, '
+                                        'open_value, high_value, low_value'}
 
-company_symbol_dict = {k:[v,] for k,v in company_symbol_dict.items()}
-company_values_dict = {k:[v,] for k,v in company_values_dict.items()}
+company_symbol_dict = {k: [v, ] for k, v in company_symbol_dict.items()}
+company_values_dict = {k: [v, ] for k, v in company_values_dict.items()}
 
 company_symbol_df = pd.DataFrame(company_symbol_dict)
 company_values_df = pd.DataFrame(company_values_dict)
