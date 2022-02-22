@@ -18,9 +18,7 @@ default_args = {
     'start_date': airflow.utils.dates.days_ago(7),
     'depends_on_past': False,
     'retries': 1,
-    'provide_context': True,
-    'email': '',
-    'email_on_failure': False
+    'provide_context': True
 }
 
 #### Airflow Variables ####
@@ -36,10 +34,10 @@ def download_reference_table() -> DataFrame:
     """
     Description: Downloads reference table from PostgreSQL database.
     """
-    postgres_conn = Postgresql(host=POSTGRE_HOST, port=POSTGRE_PORT, db_name=POSTGRE_DB_NAME, user_name=POSTGRE_USER, password=POSTGRE_PASSWORD)
+    conn_obj = Postgresql(host=POSTGRE_HOST, port=POSTGRE_PORT, db_name=POSTGRE_DB_NAME, user_name=POSTGRE_USER, password=POSTGRE_PASSWORD)
     query = """SELECT * FROM etl_manager.database_flow_reference_table"""
-    ref_table = postgres_conn.execute_query(query=query, return_data=True)
-    postgres_conn.greenplum.close_connection()  # close connection to greenplum db
+    ref_table = conn_obj.execute_query(query=query, return_data=True)
+    conn_obj.close_connection()  # close connection to greenplum db
     return ref_table
 
 
