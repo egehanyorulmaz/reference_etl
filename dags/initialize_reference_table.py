@@ -35,6 +35,8 @@ database.create_table(table_schema='etl_manager', table_name='database_flow_refe
                                'destination_table': 'varchar',
                                'target_fields': 'varchar'})
 
+database.truncate_table(table_schema='etl_manager', table_name='database_flow_reference_table')
+
 company_symbol_dict = {'insert_date': str(datetime.now()), 'source_connection': 'mysql',
                        'source_schema': 'company',
                        'source_table': 'company_symbols', 'key_fields': 'ticker_symbol, company_name',
