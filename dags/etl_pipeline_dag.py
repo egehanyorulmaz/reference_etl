@@ -26,8 +26,8 @@ default_args = {
 
 #### Other Variables ####
 CUR_DIR = os.path.abspath(os.path.dirname(__file__))
-POSTGRE_HOST, POSTGRE_PORT, POSTGRE_DB_NAME, POSTGRE_USER, POSTGRE_PASSWORD = 'localhost', '5433', 'postgres_db', 'postgres', 'postgres'
-MYSQL_HOST, MYSQL_PORT, MYSQL_DB_NAME, MYSQL_USER, MYSQL_PASSWORD = 'localhost', '3306', 'mysql_db', 'root', 'root_mysql'
+POSTGRE_HOST, POSTGRE_PORT, POSTGRE_DB_NAME, POSTGRE_USER, POSTGRE_PASSWORD = 'host.docker.internal', '5433', 'postgres_db', 'postgres', 'postgres'
+MYSQL_HOST, MYSQL_PORT, MYSQL_DB_NAME, MYSQL_USER, MYSQL_PASSWORD = 'host.docker.internal', '3306', 'mysql_db', 'root', 'root_mysql'
 
 
 def download_reference_table() -> DataFrame:
