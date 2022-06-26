@@ -1,5 +1,5 @@
 # Developing reliable and flexible ETL pipelines using Apache Airflow
-This repository is created for the Medium Article, "Developing reliable and flexible ETL pipelines using Apache Airflow" (Not published yet :) ) and consists the steps of creating an ETL pipeline from scratch using reference tables.
+This repository is created for the Medium Article, "Developing reliable and flexible ETL pipelines using Apache Airflow" (https://medium.com/midas-engineering/developing-flexible-etl-pipelines-between-databases-with-apache-airflow-f8352329e651) and consists the steps of creating an ETL pipeline from scratch using reference tables.
 
 You need certain applications to follow the steps of the tutorial. We will be using Docker, Docker Compose, Python \
 Docker Desktop : https://docs.docker.com/get-docker/ \
